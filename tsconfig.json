@@ -19,7 +19,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "typeRoots": ["./src/globals.d.ts", "./node_modules/@types"]
+    "typeRoots": ["src/frontend/globals.d.ts", "./node_modules/@types"]
   },
   "include": [
     "src",
