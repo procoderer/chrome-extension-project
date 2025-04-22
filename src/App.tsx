@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Hello from "./components/Hello";
+import Hello from "./frontend/components/Hello";
 
 function App() {
   return (
