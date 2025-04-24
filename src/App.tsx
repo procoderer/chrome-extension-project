@@ -9,21 +9,24 @@ function App() {
       <h1>Starter Extension</h1>
       {/* Render the SnippetList component with the snippets and event handlers */}
       <Hello person="World" />
-      <Description text="bullet" />
+      <KeySkills 
+        jobDescription="testing" 
+        extraSkillsToLookFor={["testing"]} 
+      />
     </div>
   );
 }
 
-function Description({ text }: { text: string }) {
+function KeySkills({ jobDescription, extraSkillsToLookFor }: { jobDescription: string, extraSkillsToLookFor?: string[] }) {
   const [skills, setSkills] = useState<string[] | null>(null);
 
   useEffect(() => {
     async function fetchSkills() {
-      const result = await extractSkills(text);
+      const result = await extractSkills(jobDescription, extraSkillsToLookFor);
       setSkills(result);
     }
     fetchSkills();
-  }, [text]);
+  }, [jobDescription, extraSkillsToLookFor]);
 
   return <p>{skills ? skills.join(", ") : "No Skills Found"}</p>;
 }

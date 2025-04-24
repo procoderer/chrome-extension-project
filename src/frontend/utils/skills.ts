@@ -1,20 +1,37 @@
 let cachedSkills: string[] | null = null;
 
 /**
- * Lazily reads public/data/skills.csv, splits by line,
- * trims & lower‑cases each entry, filters empties.
+ * Lazily reads public/data/skills.csv, normalises the list and
+ * expands entries of the form "Full Skill Name (ABC)" into
+ * ["full skill name", "abc"].
  */
 async function loadSkills(): Promise<string[]> {
   if (cachedSkills) return cachedSkills;
 
-  // In a Chrome extension we need the *absolute* URL for fetch.
   const url = chrome.runtime.getURL("data/skills.csv");
   const raw = await fetch(url).then(r => r.text());
 
-  cachedSkills = raw
-    .split(/\r?\n/)
-    .map(s => s.trim().toLowerCase())
-    .filter(Boolean);
+  cachedSkills = [
+    ...new Set(
+      raw
+        .split(/\r?\n/)                        // 1 line → 1 entry
+        .flatMap(line => {
+          const trimmed = line.trim();
+          if (!trimmed) return [];            // skip blanks
+
+          // ── "Something (XYZ)"  ➜  ["something", "xyz"] ───────────
+          const match = trimmed.match(/^(.+?)\s+\(([^)]+)\)$/);
+          if (match) {
+            const [_, full, acronym] = match;
+            return [full.toLowerCase(), acronym.toLowerCase()];
+          }
+
+          return [trimmed.toLowerCase()];
+        })
+        .map(s => s.toLowerCase())
+        .filter(Boolean)
+    )
+  ];
 
   return cachedSkills;
 }
@@ -42,10 +59,18 @@ export async function extractSkills(
     .toLowerCase()
     .replace(/[^a-z0-9+#. ]+/g, " ");
 
-  // Build one big regex: \b(skill1|skill2|c\+\+|next\.js)\b
+  const escapeRE = (s: string) =>
+    s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const allowed = "a-z0-9+#\\.";               // chars we allow *inside* a skill
+  const boundary = `[^${allowed}]`;            // any char *outside* a skill
+
+  const skillsPattern = SKILLS.map(escapeRE).join("|");
+
+  //  (^|boundary)  (skill1|skill2|...)  (?=$|boundary)
   const skillRegex = new RegExp(
-    `\\b(${SKILLS.map(s => s.replace(/[.+]/g, "\\$&")).join("|")})\\b`,
-    "g"
+    `(?:^|${boundary})(${skillsPattern})(?=$|${boundary})`,
+    "gi"
   );
 
   const found = new Set<string>();
@@ -56,5 +81,13 @@ export async function extractSkills(
     if (!found.has(hit)) found.add(hit);
   }
 
-  return Array.from(found);
+  const foundArray = Array.from(found);
+
+  const extraLower = extraSkills.map(s => s.toLowerCase());
+
+  // put any “extra” matches first, then the rest
+  return [
+    ...extraLower.filter(s => found.has(s)),            // keep order of extraSkills
+    ...foundArray.filter(s => !extraLower.includes(s))  // everything else
+  ];
 }
