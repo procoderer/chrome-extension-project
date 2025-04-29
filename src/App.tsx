@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import ExtraSkillManager from "./ExtraSkillManager";
+import {
+  getUserSkills,
+  addUserSkill,
+  removeUserSkill,
+} from "./userSkills";
+import KeySkills from "./KeySkills";
 
 const API_KEY    = "AIzaSyD0l6qTYCztYeVVTEt3E0cI_5eltSPNVao";
 const MODEL_NAME = "gemini-2.0-flash";
@@ -39,6 +47,13 @@ export default function App() {
   const [jobDesc, setJobDesc] = useState("");
   const [letter, setLetter]   = useState("");
   const [loading, setLoading] = useState(false);
+  const [userSkills, setUserSkills] = useState<string[]>([]);
+
+  useEffect(() => { getUserSkills().then(setUserSkills); }, []);
+  const handleAddSkill = async (skill: string) =>
+    setUserSkills(await addUserSkill(skill));
+  const handleRemoveSkill = async (skill: string) =>
+    setUserSkills(await removeUserSkill(skill));
 
   const handleGenerate = async () => {
     if (!jobDesc.trim()) {
@@ -60,6 +75,14 @@ export default function App() {
 
   return (
     <div className="App" style={{ padding: 16, fontFamily: "sans-serif" }}>
+      <ExtraSkillManager
+        skills={userSkills}
+        onAdd={handleAddSkill}
+        onRemove={handleRemoveSkill}
+      />
+
+      <KeySkills jobDescription="testing c deez nuts briuh " refreshKey={userSkills.join(",")} />
+      
       <h1>Cover Letter Generator</h1>
 
       <textarea
