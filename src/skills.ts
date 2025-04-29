@@ -1,3 +1,5 @@
+import { getUserSkills } from "./userSkills";
+
 let cachedSkills: string[] | null = null;
 
 /**
@@ -45,14 +47,12 @@ async function loadSkills(): Promise<string[]> {
  * @param extraSkills    – optional extra skills (not in the CSV) to look for
  * @returns Promise<string[]>  skills in first‑seen order
  */
-export async function extractSkills(
-    jobDescription: string,
-    extraSkills: string[] = []
-  ): Promise<string[]> {
-  const SKILLS = [
-    ...(await loadSkills()),
-    ...extraSkills.map(s => s.toLowerCase())
-  ];
+export async function extractSkills(jobDescription: string): Promise<string[]> {
+  const [csvSkills, userSkills] = await Promise.all([
+    loadSkills(),
+    getUserSkills()
+  ]);
+  const SKILLS = [...csvSkills, ...userSkills];
 
   // Pre‑process the description
   const description = jobDescription
@@ -81,13 +81,9 @@ export async function extractSkills(
     if (!found.has(hit)) found.add(hit);
   }
 
-  const foundArray = Array.from(found);
-
-  const extraLower = extraSkills.map(s => s.toLowerCase());
-
-  // put any “extra” matches first, then the rest
+  const userSet = new Set(userSkills);              // put the user’s skills first
   return [
-    ...extraLower.filter(s => found.has(s)),            // keep order of extraSkills
-    ...foundArray.filter(s => !extraLower.includes(s))  // everything else
+    ...userSkills.filter(s => found.has(s)),
+    ...Array.from(found).filter(s => !userSet.has(s))
   ];
 }

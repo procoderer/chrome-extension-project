@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { extractSkills } from "./skills";
+import ExtraSkillManager from "./ExtraSkillManager";
+import {
+  getUserSkills,
+  addUserSkill,
+  removeUserSkill,
+} from "./userSkills";
 
 const API_KEY    = "AIzaSyD0l6qTYCztYeVVTEt3E0cI_5eltSPNVao";
 const MODEL_NAME = "gemini-2.0-flash";
@@ -37,24 +43,32 @@ async function generateCoverLetter(description: string): Promise<string> {
   );
 }
 
-function KeySkills({ jobDescription, extraSkillsToLookFor }: { jobDescription: string, extraSkillsToLookFor?: string[] }) {
-  const [skills, setSkills] = useState<string[] | null>(null);
+interface Props {
+  jobDescription: string;
+  refreshKey?: string;        // any string that changes when skills change
+}
+
+function KeySkills({ jobDescription, refreshKey }: Props) {
+  const [skills, setSkills] = useState<string[]>([]);
 
   useEffect(() => {
-    async function fetchSkills() {
-      const result = await extractSkills(jobDescription, extraSkillsToLookFor);
-      setSkills(result);
-    }
-    fetchSkills();
-  }, [jobDescription, extraSkillsToLookFor]);
+    extractSkills(jobDescription).then(setSkills);
+  }, [jobDescription, refreshKey]);
 
-  return <p>{skills ? skills.join(", ") : "No Skills Found"}</p>;
+  return <p>{skills.length ? skills.join(", ") : "No skills found."}</p>;
 }
 
 export default function App() {
   const [jobDesc, setJobDesc] = useState("");
   const [letter, setLetter]   = useState("");
   const [loading, setLoading] = useState(false);
+  const [userSkills, setUserSkills] = useState<string[]>([]);
+
+  useEffect(() => { getUserSkills().then(setUserSkills); }, []);
+  const handleAddSkill = async (skill: string) =>
+    setUserSkills(await addUserSkill(skill));
+  const handleRemoveSkill = async (skill: string) =>
+    setUserSkills(await removeUserSkill(skill));
 
   const handleGenerate = async () => {
     if (!jobDesc.trim()) {
@@ -76,10 +90,13 @@ export default function App() {
 
   return (
     <div className="App" style={{ padding: 16, fontFamily: "sans-serif" }}>
-      <KeySkills 
-        jobDescription="testing" 
-        extraSkillsToLookFor={["testing"]} 
+      <ExtraSkillManager
+        skills={userSkills}
+        onAdd={handleAddSkill}
+        onRemove={handleRemoveSkill}
       />
+
+      <KeySkills jobDescription="testing c deez nuts briuh " refreshKey={userSkills.join(",")} />
 
       <h1>Cover Letter Generator</h1>
 
