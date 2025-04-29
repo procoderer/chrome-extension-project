@@ -7,6 +7,7 @@ import {
   removeUserSkill,
 } from "./userSkills";
 import KeySkills from "./KeySkills";
+import { extractJobDescription } from "./scrapeJobDescription";
 
 // Use the correct environment variable for Vite
 const API_KEY    = import.meta.env.VITE_GEMINI_API_KEY as string;
@@ -79,6 +80,13 @@ export default function App() {
   const [summarizing, setSummarizing] = useState(false);
   const [userSkills, setUserSkills] = useState<string[]>([]);
 
+  useEffect(() => {
+    const result = extractJobDescription();
+    if (result) {
+      setJobDesc(result);
+    }
+  }, []);
+
   useEffect(() => { getUserSkills().then(setUserSkills); }, []);
   const handleAddSkill = async (skill: string) =>
     setUserSkills(await addUserSkill(skill));
@@ -86,7 +94,7 @@ export default function App() {
     setUserSkills(await removeUserSkill(skill));
 
   const handleGenerate = async () => {
-    if (!jobDesc.trim()) {
+    if (!jobDesc) {
       alert("Please enter a job description.");
       return;
     }
@@ -104,7 +112,7 @@ export default function App() {
   };
 
   const handleSummarize = async () => {
-    if (!jobDesc.trim()) {
+    if (jobDesc) {
       alert("Please enter a job description.");
       return;
     }
@@ -120,6 +128,7 @@ export default function App() {
     }
   };
 
+
   return (
     <div className="App" style={{ padding: 16, fontFamily: "sans-serif" }}>
       <ExtraSkillManager
@@ -128,7 +137,7 @@ export default function App() {
         onRemove={handleRemoveSkill}
       />
 
-      <KeySkills jobDescription="testing c deez nuts briuh " refreshKey={userSkills.join(",")} />
+      <KeySkills jobDescription={jobDesc} refreshKey={userSkills.join(",")} />
       
       <h1>Cover Letter Generator</h1>
 
