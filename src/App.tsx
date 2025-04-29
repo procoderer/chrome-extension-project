@@ -7,6 +7,7 @@ import {
   addUserSkill,
   removeUserSkill,
 } from "./userSkills";
+import KeySkills from "./KeySkills";
 
 const API_KEY    = "AIzaSyD0l6qTYCztYeVVTEt3E0cI_5eltSPNVao";
 const MODEL_NAME = "gemini-2.0-flash";
@@ -41,21 +42,6 @@ async function generateCoverLetter(description: string): Promise<string> {
     data.candidates?.[0]?.content?.parts?.[0]?.text
     ?? "No response"
   );
-}
-
-interface Props {
-  jobDescription: string;
-  refreshKey?: string;        // any string that changes when skills change
-}
-
-function KeySkills({ jobDescription, refreshKey }: Props) {
-  const [skills, setSkills] = useState<string[]>([]);
-
-  useEffect(() => {
-    extractSkills(jobDescription).then(setSkills);
-  }, [jobDescription, refreshKey]);
-
-  return <p>{skills.length ? skills.join(", ") : "No skills found."}</p>;
 }
 
 export default function App() {
