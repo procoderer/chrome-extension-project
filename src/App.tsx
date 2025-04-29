@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { extractSkills } from "./skills";
 import ExtraSkillManager from "./ExtraSkillManager";
 import {
   getUserSkills,
@@ -83,7 +82,7 @@ export default function App() {
       />
 
       <KeySkills jobDescription="testing c deez nuts briuh " refreshKey={userSkills.join(",")} />
-
+      
       <h1>Cover Letter Generator</h1>
 
       <textarea
