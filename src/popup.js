@@ -51,3 +51,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+async function summarizeJobDescription(description) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+  const body = {
+    contents: [
+      {
+        parts: [
+          {
+            text:
+              "You are a helpful assistant that summarizes job descriptions for job seekers.\n\n" +
+              `Summarize the following job description in 3-4 sentences:\n\n${description}`,
+          },
+        ],
+      },
+    ],
+  };
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
+
+  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "No summary available";
+}

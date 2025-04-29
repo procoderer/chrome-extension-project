@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const API_KEY    = "AIzaSyD0l6qTYCztYeVVTEt3E0cI_5eltSPNVao";
+// Use the correct environment variable for Vite
+const API_KEY    = import.meta.env.VITE_GEMINI_API_KEY as string;
 const MODEL_NAME = "gemini-2.0-flash";
 
 async function generateCoverLetter(description: string): Promise<string> {
@@ -35,10 +36,39 @@ async function generateCoverLetter(description: string): Promise<string> {
   );
 }
 
+async function summarizeJobDescription(description: string): Promise<string> {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+  const body = {
+    contents: [
+      {
+        parts: [
+          {
+            text:
+              "You are a helpful assistant that summarizes job descriptions for job seekers.\n\n" +
+              `Summarize the following job description in 3-4 sentences:\n\n${description}`,
+          },
+        ],
+      },
+    ],
+  };
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
+
+  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "No summary available";
+}
+
 export default function App() {
   const [jobDesc, setJobDesc] = useState("");
   const [letter, setLetter]   = useState("");
   const [loading, setLoading] = useState(false);
+  const [summary, setSummary] = useState("");
+  const [summarizing, setSummarizing] = useState(false);
 
   const handleGenerate = async () => {
     if (!jobDesc.trim()) {
@@ -58,6 +88,23 @@ export default function App() {
     }
   };
 
+  const handleSummarize = async () => {
+    if (!jobDesc.trim()) {
+      alert("Please enter a job description.");
+      return;
+    }
+    setSummarizing(true);
+    setSummary("Summarizing…");
+    try {
+      const result = await summarizeJobDescription(jobDesc);
+      setSummary(result);
+    } catch (err: any) {
+      setSummary("Error: " + err.message);
+    } finally {
+      setSummarizing(false);
+    }
+  };
+
   return (
     <div className="App" style={{ padding: 16, fontFamily: "sans-serif" }}>
       <h1>Cover Letter Generator</h1>
@@ -70,12 +117,27 @@ export default function App() {
       />
 
       <button
-        style={{ padding: "8px 16px", marginBottom: 8 }}
+        style={{ padding: "8px 16px", marginBottom: 8, marginRight: 8 }}
         onClick={handleGenerate}
         disabled={loading}
       >
         {loading ? "Generating…" : "Generate Cover Letter"}
       </button>
+
+      <button
+        style={{ padding: "8px 16px", marginBottom: 8 }}
+        onClick={handleSummarize}
+        disabled={summarizing}
+      >
+        {summarizing ? "Summarizing…" : "Summarize Job Description"}
+      </button>
+
+      <textarea
+        style={{ width: "100%", height: 80, marginBottom: 8 }}
+        readOnly
+        value={summary}
+        placeholder="Job description summary will appear here…"
+      />
 
       <textarea
         style={{ width: "100%", height: 200 }}
