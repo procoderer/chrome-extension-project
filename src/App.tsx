@@ -7,7 +7,7 @@ import {
   removeUserSkill,
 } from "./userSkills";
 import KeySkills from "./KeySkills";
-import { extractJobDescription } from "./scrapeJobDescription";
+//import { extractJobDescription } from "../public/scrapeJobDescription";
 
 // Use the correct environment variable for Vite
 const API_KEY    = import.meta.env.VITE_GEMINI_API_KEY as string;
@@ -81,10 +81,14 @@ export default function App() {
   const [userSkills, setUserSkills] = useState<string[]>([]);
 
   useEffect(() => {
-    const result = extractJobDescription();
-    if (result) {
-      setJobDesc(result);
-    }
+    chrome.runtime.sendMessage({ type: "GET_JOB_DESCRIPTION" }, (response) => {
+      if (response?.text) {
+        console.log("📩 Loaded from background:", response.text.slice(0, 100));
+        setJobDesc(response.text);
+      } else {
+        console.log("ℹ️ No job description found in background.");
+      }
+    });
   }, []);
 
   useEffect(() => { getUserSkills().then(setUserSkills); }, []);
@@ -112,7 +116,7 @@ export default function App() {
   };
 
   const handleSummarize = async () => {
-    if (jobDesc) {
+    if (!jobDesc) {
       alert("Please enter a job description.");
       return;
     }

@@ -25,6 +25,6 @@
     "src",
     "public/background.js",
     "public/contentScript.js"
-, "scrapeJobDescription.js"  ],
+, "scrapeJobDescription.js", "public/scrapeJobDescription.js"  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
