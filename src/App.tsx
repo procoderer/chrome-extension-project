@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import ExtraSkillManager from "./ExtraSkillManager";
+import {
+  getUserSkills,
+  addUserSkill,
+  removeUserSkill,
+} from "./userSkills";
+import KeySkills from "./KeySkills";
 
 // Use the correct environment variable for Vite
 const API_KEY    = import.meta.env.VITE_GEMINI_API_KEY as string;
@@ -69,6 +77,13 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState("");
   const [summarizing, setSummarizing] = useState(false);
+  const [userSkills, setUserSkills] = useState<string[]>([]);
+
+  useEffect(() => { getUserSkills().then(setUserSkills); }, []);
+  const handleAddSkill = async (skill: string) =>
+    setUserSkills(await addUserSkill(skill));
+  const handleRemoveSkill = async (skill: string) =>
+    setUserSkills(await removeUserSkill(skill));
 
   const handleGenerate = async () => {
     if (!jobDesc.trim()) {
@@ -107,6 +122,14 @@ export default function App() {
 
   return (
     <div className="App" style={{ padding: 16, fontFamily: "sans-serif" }}>
+      <ExtraSkillManager
+        skills={userSkills}
+        onAdd={handleAddSkill}
+        onRemove={handleRemoveSkill}
+      />
+
+      <KeySkills jobDescription="testing c deez nuts briuh " refreshKey={userSkills.join(",")} />
+      
       <h1>Cover Letter Generator</h1>
 
       <textarea
