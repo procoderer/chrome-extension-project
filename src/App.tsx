@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState } from "react";
 
 const API_KEY    = "AIzaSyD0l6qTYCztYeVVTEt3E0cI_5eltSPNVao";

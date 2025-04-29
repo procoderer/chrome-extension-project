@@ -1,5 +1,3 @@
-// popup.js
-
 const API_KEY    = "AIzaSyD0l6qTYCztYeVVTEt3E0cI_5eltSPNVao";
 const MODEL_NAME = "gemini-2.0-flash";
 
