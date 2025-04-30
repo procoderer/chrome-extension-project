@@ -18,3 +18,16 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     console.log(Date.now(), "Selected text: ", selectedText);
   }
 });
+
+let latestJobDescription = "";
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  console.log("📨 Message received in background:", msg);
+  
+  if (msg.type === "SCRAPED_JOB_DESCRIPTION") {
+    latestJobDescription = msg.payload.text;
+    sendResponse({ status: "received" });
+  } else if (msg.type === "GET_JOB_DESCRIPTION") {
+    sendResponse({ text: latestJobDescription });
+  }
+});

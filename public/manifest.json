@@ -15,6 +15,15 @@
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": [
+          "*://*.myworkdayjobs.com/*"
+      ],
+      "js": ["scrapeJobDescription.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "action": {
     "default_popup": "index.html"
   }
