@@ -7,12 +7,7 @@ This document describes the testing approach for the Chrome Extension project, f
 ## 1. Interface Testing
 
 **Approach:**  
-We use a combination of automated and manual testing.
-
-- **Automated:**  
-  - React components are tested using Jest and React Testing Library.
-  - Example: `App.test.tsx` verifies that the main heading and the Hello component render as expected.
-  - Chrome APIs are mocked using [sinon-chrome](https://github.com/acvetkov/sinon-chrome) and [jest-sinon](https://github.com/djkf/jest-sinon) as described in the [README.md](README.md#mocking-chrome-apis).
+We use manual testing and look to integrate automated testing in the future.
 
 - **Manual:**  
   - Manual walkthroughs are performed to verify UI flows, such as adding/removing skills, generating cover letters, and summarizing job descriptions.
