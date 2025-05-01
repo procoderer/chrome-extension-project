@@ -69,7 +69,7 @@ JobAppAI is a Google Chrome extension that parses job postings on Workday to qui
 
 ## Known Bugs and Incomplete Features
 
-No unresolved bugs have been found. In the future, we may want to allow the user to enter in their API key in the actual extension instead of making them add a `.env` file with their API key.
+No unresolved bugs have been found. In the future, we may want to allow the user to enter in their API key in the actual extension instead of making them add a `.env` file with their API key. In addition, we currently only have a barebones user interface and want to modify it.
 
 ## Credits
 
