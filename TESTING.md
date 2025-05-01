@@ -77,7 +77,8 @@ We use manual testing and look to integrate automated testing in the future.
   ```
 - **Expected Output:**  
   A professional cover letter referencing React, TypeScript, cloud APIs, communication, and teamwork.
-- **Current Behavior:**  
+- **Current Behavior:**
+
         [Your Name]
         [Your Address]
         [Your Phone Number]
@@ -168,7 +169,7 @@ We use manual testing and look to integrate automated testing in the future.
   ```
 - **Expected Output:**  
     A concise summary (3-4 sentences) highlighting the marketing focus, digital campaigns, data analysis, collaboration, and required tools.
-- **Current Behavior:**  
+- **Current Behavior:**
     This leadership role as Senior Director of Category Management & Promotions at LEGO Retail is responsible for developing and executing retail category and promotion strategies across all LEGO-owned channels globally to enhance performance and drive growth. The role involves leading a team, conducting market research, providing product insights, and collaborating with global teams to optimize the LEGO Retail product proposition. The ideal candidate will have extensive experience in category and promotion management, strong analytical skills, and a proven track record of leading and developing teams within a global business context.
 
 
