@@ -27,7 +27,8 @@ We use manual testing and look to integrate automated testing in the future.
 
 ### Test Case 1: Cover Letter Generation
 
-- **Input:**  
+- **Input:**
+
         Our Company
 
         Changing the world through digital experiences is what Adobe’s all about. We give everyone—from emerging artists to global brands—everything they need to design and deliver exceptional digital experiences! We’re passionate about empowering people to create beautiful and powerful images, videos, and apps, and transform how companies interact with customers across every screen. 
