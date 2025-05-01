@@ -8,6 +8,7 @@ JobAppAI is a Google Chrome extension that parses job postings on Workday to qui
 
 - Download the latest release from the [Releases](https://github.com/procoderer/chrome-extension-project)
 - Unzip the downloaded ZIP file
+- Add a file named `.env` in the root directory that contains the line `VITE_GEMINI_API_KEY="example_api_key"` (replacing example_api_key with your API key)
 - Open Chrome and navigate to `chrome://extensions`
 - Enable "Developer mode"
 - Drag and drop the unzipped folder into the extensions page
@@ -20,20 +21,22 @@ JobAppAI is a Google Chrome extension that parses job postings on Workday to qui
    git clone https://github.com/procoderer/chrome-extension-project.git
    ```
 
-2. Install dependencies:
+2. Add a file named `.env` in the root directory that contains the line `VITE_GEMINI_API_KEY="example_api_key"` (replacing example_api_key with your API key)
+
+3. Install dependencies:
 
    ```bash
    cd chrome-extension-project
    npm install
    ```
 
-3. Build the extension:
+4. Build the extension:
 
    ```bash
    npm run build
    ```
 
-4. Load the extension in Chrome:
+5. Load the extension in Chrome:
 
    - Open Chrome and navigate to `chrome://extensions`
    - Enable "Developer mode"
@@ -66,7 +69,7 @@ JobAppAI is a Google Chrome extension that parses job postings on Workday to qui
 
 ## Known Bugs and Incomplete Features
 
-There are no unresolved bugs nor incomplete features for now, but we definitely want to polish up the user interface and do more testing in the future.
+No unresolved bugs have been found. In the future, we may want to allow the user to enter in their API key in the actual extension instead of making them add a `.env` file with their API key.
 
 ## Credits
 
