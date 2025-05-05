@@ -23,8 +23,10 @@
   },
   "include": [
     "src",
-    "public/background.js",
-    "public/contentScript.js"
-, "scrapeJobDescription.js", "public/scrapeJobDescription.js", "src/sidepanel.tsx"  ],
+    "src/background.ts",
+    "public/contentScript.js",
+    "src/scrapeJobDescription.ts", 
+    "src/sidepanel.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -18,9 +18,6 @@ export default defineConfig({
         // Copy manifest.json
         copyFileSync('public/manifest.json', 'dist/manifest.json');
         
-        // Copy background.js
-        copyFileSync('public/background.js', 'dist/background.js');
-        
         // Copy images folder (recursive copy not implemented here, 
         // you may need to enhance this for complex directory structures)
         if (!existsSync('dist/images')) {
@@ -34,8 +31,13 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        main:     resolve(__dirname, "index.html"),
+        main: resolve(__dirname, "index.html"),
         sidepanel: resolve(__dirname, "sidepanel.html"),
+        background: resolve(__dirname, 'src/background.ts'),
+        scrapeJobDescription: resolve(__dirname, 'src/scrapeJobDescription.ts'),
+      },
+      output: {
+        entryFileNames: '[name].js',
       },
     },
   },
