@@ -7,8 +7,8 @@ body, html {
 }
 
 .container {
-  width: 400px;               /* Chrome‑extension popup width */
-  max-height: 600px;
+  width: auto;               /* Chrome‑extension popup width */
+  height: auto;
   overflow-x: auto;
   overflow-y: auto;
   margin: 0 auto;

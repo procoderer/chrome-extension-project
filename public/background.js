@@ -1,4 +1,10 @@
 // This function is called when the extension is installed or updated
+chrome.runtime.onInstalled.addListener(async () => {
+  // when the user clicks the toolbar icon, open the side panel
+  await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+});
+
+// This function is called when the extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
   // Create a context menu item
   // See: https://developer.chrome.com/docs/extensions/reference/api/contextMenus#method-create

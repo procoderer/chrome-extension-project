@@ -122,7 +122,7 @@ export default function App() {
       <textarea
         id="jd"
         className="textarea"
-        rows={4}
+        rows={6}
         placeholder="Paste job description…"
         value={jobDesc}
         onChange={e => setJobDesc(e.target.value)}
@@ -143,7 +143,7 @@ export default function App() {
       <textarea
         className="textarea output"
         readOnly
-        rows={4}
+        rows={6}
         value={summary}
         placeholder="Job description summary will appear here…"
       />
@@ -153,7 +153,7 @@ export default function App() {
       <textarea
         className="textarea output"
         readOnly
-        rows={4}
+        rows={6}
         value={letter}
         placeholder="Your cover letter will appear here…"
       />
