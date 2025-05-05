@@ -1,10 +1,176 @@
-.App {
-    color: black;
-    text-align: center;
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+body, html {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f4f4f7;
 }
 
 .container {
-  width: 400px;
+  width: 400px;               /* Chrome‑extension popup width */
+  max-height: 600px;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin: 0 auto;
   padding: 1rem;
-  background-color: white;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
+
+.title {
+  margin: 0 0 .5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ---------- Inputs ---------- */
+.label {
+  font-weight: 600;
+  font-size: .875rem;
+}
+
+.textarea {
+  width: 100%;
+  padding: .65rem .75rem;
+  border: 1px solid #d1d5db;          /* neutral‑300 */
+  border-radius: 8px;
+  background: #fff;
+  resize: vertical;
+  font-size: .875rem;
+  line-height: 1.35;
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+.textarea:focus {
+  outline: none;
+  border-color: #6366f1;              /* indigo‑500 */
+  box-shadow: 0 0 0 2px #c7d2fe;      /* indigo‑200 */
+}
+
+.output {
+  background: #f9fafb;                /* neutral‑50 */
+}
+
+/* ---------- Buttons ---------- */
+.actions {
+  display: flex;
+  gap: .5rem;
+  min-width: 0;
+}
+.btn {
+  flex: 1 1 0;
+  border: none;
+  padding: .55rem .75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .875rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  transition: transform .12s ease, box-shadow .12s ease;
+  min-width: 0;
+}
+.btn:active { transform: translateY(1px); }
+
+.primary {
+  color: #fff;
+  background: linear-gradient(135deg,#6366f1 0%,#4f46e5 100%);
+}
+.primary:hover:not(:disabled) {
+  box-shadow: 0 2px 8px rgba(99,102,241,.3);
+}
+
+.outline {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+.outline:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ---------- Spinner ---------- */
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Footer ---------- */
+.footer {
+  margin-top: .25rem;
+  text-align: center;
+  font-size: .75rem;
+  color: #6b7280;            /* neutral‑500 */
+}
+
+/* --- Skills section --- */
+
+.skills        { display:flex; flex-direction:column; gap:.25rem; }
+
+.chips         { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center;
+                 background:#f9fafb; padding:.55rem .6rem;
+                 border-radius:8px; border:1px solid #e5e7eb;
+                 min-width: 0; }
+
+.chip          { display:flex; align-items:center; gap:.35rem;
+                 background:#e0e7ff; color:#4338ca;
+                 padding:.35rem .6rem; border-radius:9999px;
+                 font-size:.75rem; white-space: normal; word-break: break-word;
+                 min-width: 0; }
+
+.chip-btn      { border:none; background:none; cursor:pointer;
+                 font-size:.9rem; line-height:1; color:inherit; }
+
+.skill-input   { flex:1 1 120px; min-width:110px;
+                 border:none; background:none; outline:none;
+                 font-size:.75rem; }
+
+.skill-input::placeholder { color:#9ca3af; }
+
+.chip-add-btn  { border:none; background:#6366f1; color:#fff; cursor:pointer;
+                 width:22px; height:22px; border-radius:50%;
+                 display:flex; align-items:center; justify-content:center;
+                 font-size:1rem; line-height:1; }
+.chip-add-btn:hover { filter:brightness(1.1); }
+.chip-add-btn:active{ transform:translateY(1px); }
+
+/* --- Auto‑detected skills chips ----------------------------------- */
+.detected-skills { display:flex; flex-direction:column; gap:.25rem; }
+
+.chips.auto {                          /* container */
+  display:flex; flex-wrap:wrap; gap:.45rem;
+  background:#ecfdf5;                  /* emerald‑50 */
+  border:1px solid #d1fae5;            /* emerald‑100 */
+  border-radius:8px; padding:.55rem .6rem;
+  box-sizing:border-box; min-width:0;  /* shrink nicely in flex */
+}
+
+.chip.auto {                           /* individual chip */
+  background:#6ee7b7;                  /* emerald‑300 */
+  color:#065f46;                       /* emerald‑800 */
+  padding:.35rem .6rem;
+  border-radius:9999px;
+  font-size:.75rem;
+  white-space:normal; word-break:break-word;
+  min-width:0;
+}
+
+.subtle { font-size:.825rem; color:#6b7280; margin:0; }

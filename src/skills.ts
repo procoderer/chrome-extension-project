@@ -45,7 +45,7 @@ async function loadSkills(): Promise<string[]> {
  *
  * @param jobDescription – raw text of the vacancy
  * @param extraSkills    – optional extra skills (not in the CSV) to look for
- * @returns Promise<string[]>  skills in first‑seen order
+ * @returns Promise<string[]>  skills in first‑seen order
  */
 export async function extractSkills(jobDescription: string): Promise<string[]> {
   const [csvSkills, userSkills] = await Promise.all([
