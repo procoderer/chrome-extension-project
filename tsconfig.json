@@ -24,7 +24,6 @@
   "include": [
     "src",
     "src/background.ts",
-    "public/contentScript.js",
     "src/scrapeJobDescription.ts", 
     "src/sidepanel.tsx"
   ],
