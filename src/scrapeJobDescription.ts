@@ -1,29 +1,33 @@
 export {};
 
-/**
- * Extracts the text of the Workday job‑description element.
- */
-const scrapeJobDescription = (): string => {
-  const el = document.querySelector<HTMLElement>(
-    '[data-automation-id="jobPostingDescription"]'
-  );
-  return el?.innerText.trim() ?? "";
-};
+const SELECTOR = '[data-automation-id="jobPostingDescription"]';
 
-/**
- * Sends the scraped description to the background worker.
- */
-const sendJobDescription = (): void => {
-  const text = scrapeJobDescription();
+/** Grab text safely */
+const getText = () =>
+  document.querySelector<HTMLElement>(SELECTOR)?.innerText.trim() ?? "";
+
+/** Push the text to the extension */
+const push = (text: string) => {
   if (!text) return;
-
-  chrome.runtime.sendMessage<ScrapedJobDescriptionMsg>(
-    { type: "SCRAPED_JOB_DESCRIPTION", payload: { text } },
-    (res) => {
-      console.log("✅ Message sent to background:", res);
-    }
-  );
+  chrome.runtime.sendMessage({
+    type: "SCRAPED_JOB_DESCRIPTION",
+    payload: { text },
+  });
 };
 
-// Run once the page finishes loading (plus a small buffer for dynamic content)
-window.addEventListener("load", () => setTimeout(sendJobDescription, 1_000));
+/** Initial send (after first load) */
+window.addEventListener("load", () => setTimeout(() => push(getText()), 1_000));
+
+/** Detect route changes in an SPA */
+["pushState", "replaceState"].forEach(fn => {
+  const orig = (history as any)[fn];
+  (history as any)[fn] = function (...args: any[]) {
+    orig.apply(this, args);
+    setTimeout(() => push(getText()), 1_000);
+  };
+});
+window.addEventListener("popstate", () => setTimeout(() => push(getText()), 1_000));
+
+/** Detect DOM mutations (job description rewritten in place) */
+const observer = new MutationObserver(() => push(getText()));
+observer.observe(document.body, { childList: true, subtree: true });

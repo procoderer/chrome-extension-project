@@ -74,11 +74,20 @@ export default function App() {
   const [summarizing, setSummarizing] = useState(false);
   const [userSkills,  setUserSkills]  = useState<string[]>([]);
 
-  /* Pull the job description once (from your background script) */
   useEffect(() => {
+    // Initial pull of job description
     chrome.runtime.sendMessage({ type: "GET_JOB_DESCRIPTION" }, res => {
       if (res?.text) setJobDesc(res.text);
     });
+  
+    // Live updates
+    const listener = (msg: any) => {
+      if (msg.type === "JOB_DESCRIPTION_UPDATED" && msg.payload?.text) {
+        setJobDesc(msg.payload.text);
+      }
+    };
+    chrome.runtime.onMessage.addListener(listener);
+    return () => chrome.runtime.onMessage.removeListener(listener);
   }, []);
 
   /* Load saved skills on mount */

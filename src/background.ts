@@ -38,6 +38,11 @@ chrome.runtime.onMessage.addListener(
     switch (msg.type) {
       case "SCRAPED_JOB_DESCRIPTION":
         latestJobDescription = msg.payload.text;
+        // Notify side panel
+        chrome.runtime.sendMessage({
+          type: "JOB_DESCRIPTION_UPDATED",
+          payload: { text: latestJobDescription },
+        });
         sendResponse({ status: "received" });
         break;
 
