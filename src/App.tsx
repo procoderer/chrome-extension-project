@@ -7,13 +7,13 @@ import {
 } from "./userSkills";
 import KeySkills from "./KeySkills";
 import "./App.css";
+import useGeminiApiKey from "./useGeminiApiKey";
 
 /* ---------- Gemini helpers ---------- */
-const API_KEY    = import.meta.env.VITE_GEMINI_API_KEY as string;
 const MODEL_NAME = "gemini-2.0-flash";
 
-async function generateCoverLetter(description: string): Promise<string> {
-  const url  = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+async function generateCoverLetter(apiKey: string, description: string): Promise<string> {
+  const url  = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
   const body = {
     contents: [
       {
@@ -37,8 +37,8 @@ async function generateCoverLetter(description: string): Promise<string> {
   return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "No response";
 }
 
-async function summarizeJobDescription(description: string): Promise<string> {
-  const url  = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+async function summarizeJobDescription(apiKey: string, description: string): Promise<string> {
+  const url  = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
   const body = {
     contents: [
       {
@@ -73,6 +73,7 @@ export default function App() {
   const [summary,     setSummary]     = useState("");
   const [summarizing, setSummarizing] = useState(false);
   const [userSkills,  setUserSkills]  = useState<string[]>([]);
+  const { apiKey, saveKey } = useGeminiApiKey();
 
   useEffect(() => {
     // Initial pull of job description
@@ -98,17 +99,19 @@ export default function App() {
   const handleRemoveSkill = async (s: string) => setUserSkills(await removeUserSkill(s));
 
   const handleGenerate = async () => {
+    if (!apiKey) return alert("Enter your gemini-2.0-flash API key first!");
     if (!jobDesc.trim()) return alert("Paste a job description first!");
     setLoading(true);  setLetter("");
-    try   { setLetter(await generateCoverLetter(jobDesc)); }
+    try   { setLetter(await generateCoverLetter(apiKey, jobDesc)); }
     catch (e: any) { setLetter("Error: " + e.message); }
     finally { setLoading(false); }
   };
 
   const handleSummarize = async () => {
+    if (!apiKey) return alert("Enter your gemini-2.0-flash API key first!");
     if (!jobDesc.trim()) return alert("Paste a job description first!");
     setSummarizing(true); setSummary("");
-    try   { setSummary(await summarizeJobDescription(jobDesc)); }
+    try   { setSummary(await summarizeJobDescription(apiKey, jobDesc)); }
     catch (e: any) { setSummary("Error: " + e.message); }
     finally { setSummarizing(false); }
   };
@@ -117,6 +120,16 @@ export default function App() {
   return (
     <main className="container">
       <h1 className="title">JobAppAI</h1>
+
+      <label htmlFor="key" className="label">gemini-2.0-flash&nbsp;API&nbsp;Key</label>
+      <input
+        id="key"
+        type="password"
+        className="input"
+        placeholder="Paste your gemini-2.0-flash API key here…"
+        value={apiKey}
+        onChange={e => saveKey(e.target.value.trim())}
+      />
 
       <ExtraSkillManager
         skills={userSkills}

@@ -34,6 +34,23 @@ body, html {
   font-size: .875rem;
 }
 
+.input {
+  width: 100%;
+  padding: .65rem .75rem;
+  border: 1px solid #d1d5db;        /* neutral-300 */
+  border-radius: 8px;
+  background: #fff;
+  font-size: .875rem;
+  line-height: 1.35;
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+.input:focus {
+  outline: none;
+  border-color: #6366f1;            /* indigo-500 */
+  box-shadow: 0 0 0 2px #c7d2fe;    /* indigo-200 */
+}
+
 .textarea {
   width: 100%;
   padding: .65rem .75rem;
