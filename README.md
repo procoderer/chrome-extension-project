@@ -1,6 +1,6 @@
 # JobAppAI
 
-JobAppAI is a Google Chrome extension that parses job postings on Workday to quickly provide users with key skills, a summary of the job description, and a tailored cover letter. Users can specify particular skills to extract as well as rely on a set of default skills automatically identified by the extension.
+JobAppAI is a Google Chrome extension designed to streamline the job application process for jobseekers. It automatically detects and parses job postings on Workday, providing users with key skills, a concise summary of the job description, and a tailored cover letter. Users can customize which skills to extract or rely on a set of default skills automatically identified by the extension.
 
 ## Installation
 
@@ -8,7 +8,6 @@ JobAppAI is a Google Chrome extension that parses job postings on Workday to qui
 
 - Download the latest release from the [Releases](https://github.com/procoderer/chrome-extension-project)
 - Unzip the downloaded ZIP file
-- Add a file named `.env` in the root directory that contains the line `VITE_GEMINI_API_KEY="example_api_key"` (replacing example_api_key with your `gemini-2.0-flash` API key)
 - Open Chrome and navigate to `chrome://extensions`
 - Enable "Developer mode"
 - Drag and drop the unzipped folder into the extensions page
@@ -21,22 +20,20 @@ JobAppAI is a Google Chrome extension that parses job postings on Workday to qui
    git clone https://github.com/procoderer/chrome-extension-project.git
    ```
 
-2. Add a file named `.env` in the root directory that contains the line `VITE_GEMINI_API_KEY="example_api_key"` (replacing example_api_key with your `gemini-2.0-flash` API key)
-
-3. Install dependencies:
+2. Install dependencies:
 
    ```bash
    cd chrome-extension-project
    npm install
    ```
 
-4. Build the extension:
+3. Build the extension:
 
    ```bash
    npm run build
    ```
 
-5. Load the extension in Chrome:
+4. Load the extension in Chrome:
 
    - Open Chrome and navigate to `chrome://extensions`
    - Enable "Developer mode"
@@ -67,9 +64,9 @@ JobAppAI is a Google Chrome extension that parses job postings on Workday to qui
 - Andrea: generate summary feature, TESTING.md
 - Shafaa: generate cover letter feature
 
-## Known Bugs and Incomplete Features
+## Future Work
 
-No unresolved bugs have been found. In the future, we may want to allow the user to enter in their API key in the actual extension instead of making them add a `.env` file with their API key. In addition, we currently only have a barebones user interface and want to modify it.
+- We may want to allow the user to provide their own template cover letter to be used.
 
 ## Credits
 
