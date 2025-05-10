@@ -27,7 +27,7 @@ We use manual testing and look to integrate automated testing in the future.
 
 ### Test Case 1: Cover Letter Generation
 
-- **Input:**
+- **Input job description:**
 
         Our Company
 
