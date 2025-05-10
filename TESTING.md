@@ -175,6 +175,60 @@ We use manual testing and look to integrate automated testing in the future.
 
 ---
 
+### Test Case 3: Key Skills Extraction
+
+- **Input job description:**  
+
+        SRAM Circuit Design Engineer - New College Grad 2025  
+        Apply  
+        locations: US, CA, Santa Clara  
+        time type: Full time  
+        posted on: Posted 30 Days Ago  
+        job requisition id: JR1996520
+
+        Today, NVIDIA is tapping into the unlimited potential of AI to define the next era of computing. An era in which our GPU acts as the brains of computers, robots, and self-driving cars that can understand the world. Doing what’s never been done before takes vision, innovation, and the world’s best talent. As an NVIDIAN, you’ll be immersed in a diverse, encouraging environment where everyone is inspired to do their best work. Come join the team and see how we can make a lasting impact on the world.
+
+        The Advanced Technology Group (ATG) at NVIDIA is an organization of process, CAD, design, and test engineers that works closely with foundry partners and internal design groups. The team defines and prototypes sophisticated process, design, and yield methodologies and ensures product groups are well-positioned for the next generation. We are looking to hire a skilled and creative circuit design engineer to help achieve these goals in a high-visibility position.
+
+        What you'll be doing:
+
+        SRAM Circuit Design: Learn the specifications and architecture, design CMOS transistor- and gate-level circuit implementations, simulate behavior and timing waveforms, supervise mask layout, and verify robust functionality.
+
+        Task Automation: Script and automate circuit simulations and volume data analysis tasks.
+
+        What we need to see:
+
+        Pursuing or recently completed a BS degree in Electrical Engineering, Computer Engineering or equivalent experience
+
+        Focus in microelectronics, VLSI, and circuit design
+
+        Strong programming, problem-solving, and communication skills
+
+        Ways to stand out from the crowd:
+
+        Self-motivation, attention to detail, and good written, verbal, and presentation skills are critical to this role
+
+        NVIDIA is widely considered to be one of the technology world’s most desirable employers. We have some of the most forward-thinking and hardworking people in the world working for us. If you're creative and autonomous, we want to hear from you!
+
+        The base salary range is 96,000 USD - 184,000 USD. Your base salary will be determined based on your location, experience, and the pay of employees in similar positions. You will also be eligible for equity and benefits. NVIDIA accepts applications on an ongoing basis.
+
+        NVIDIA is committed to fostering a diverse work environment and proud to be an equal opportunity employer. As we highly value diversity in our current and future employees, we do not discriminate (including in our hiring and promotion practices) on the basis of race, religion, color, national origin, gender, gender expression, sexual orientation, age, marital status, veteran status, disability status or any other characteristic protected by law.
+
+
+- **Extraction Method:**  
+  A regular expression is used to scan the job description for matches against a predefined list of skills (loaded from a CSV file) and user-defined skills. The skills are matched based on word boundaries and normalized to lowercase.
+
+- **Expected Output:**  
+  A list of key skills relevant to the job description, prioritizing predefined skills from the CSV file and user-defined skills.
+
+- **Current Behavior:**  
+  The following key skills were extracted:  
+  `nvidia, ai, cars, advanced, technology, atg, organization, process, cad, design, engineers, yield, groups, circuit, sram, specifications, architecture, cmos, timing, mask, layout, automation, simulations, data analysis, electrical, engineering, computer engineering, focus, microelectronics, vlsi, programming, problem solving, communication, skills, presentation skills`
+
+  Note: The extracted skills are based on matches from the predefined skills list and user-defined skills. General terms like "base," "salary," and "range" are not included in the implementation.
+
+---
+
 **Note:**  
 Both prompt features are tested by entering sample job descriptions in the UI and verifying that the outputs are relevant, well-structured, and error-free. Edge cases (empty input, very long descriptions) are also tested manually.
 
