@@ -57,12 +57,12 @@ JobAppAI is a Google Chrome extension designed to streamline the job application
 - Generate summary of job description
 - Generate cover letter based on job description
 
-## Team Member Responsibilities (up to milestone)
+## Team Member Responsibilities
 
 - Dilini: extract job description feature, landing page
-- Yun: identify key skills feature, reviewing PRs/merging branches, README.md
-- Andrea: generate summary feature, TESTING.md
-- Shafaa: generate cover letter feature
+- Yun: identify key skills feature, frontend/UI, reviewing PRs/merging branches, README.md
+- Andrea: generate summary feature, TESTING.md, slide deck, slide deck presentation video
+- Shafaa: generate cover letter feature, demo video
 
 ## Future Work
 
